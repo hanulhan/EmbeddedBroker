@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jee="http://www.springframework.org/schema/jee"  
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xsi:schemaLocation="
+      http://www.springframework.org/schema/beans 
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/jms
+      http://www.springframework.org/schema/jms/spring-jms.xsd
+      http://www.springframework.org/schema/context 
+      http://www.springframework.org/schema/context/spring-context-3.0.xsd
+      http://www.springframework.org/schema/util 
+      http://www.springframework.org/schema/util/spring-util.xsd      
+      http://www.springframework.org/schema/task 
+      http://www.springframework.org/schema/task/spring-task-3.0.xsd      
+      http://www.springframework.org/schema/jee  
+      http://www.springframework.org/schema/jee/spring-jee-3.0.xsd      
+      http://www.springframework.org/schema/tx 
+      http://www.springframework.org/schema/tx/spring-tx-3.0.xsd"
+>
+
+    <!--######################################################################
+    #                   applicationContext of Embedded-Broker
+    #########################################################################-->
+
+    <bean id="clickCounter" class= "hanulhan.jms.broker.ClickCounter" />
+
+    <bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean">
+        <property name="config" value="classpath:activemq.xml" />
+        <property name="start" value="true" />
+    </bean>
+    
+
+<!--    <bean id="brokerSettingsBean" class="hanulhan.jms.broker.BrokerSettings" >
+        <property name="jmxServiceURL"  value="${jms.broker.service.url}" />
+        <property name="mBeanObjectName" value="${jms.broker.mbean.objectName}" />
+        <property name="brokerURL"    value= "${jms.broker.url}" />
+        <property name="sendTimeout" value= "${jms.broker.send.timeout}" />
+    </bean>    
+
+    <bean id="bean_amqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="#{brokerSettingsBean.getBrokerURL()}" />
+        <property name="sendTimeout" value="#{brokerSettingsBean.getSendTimeout()}" />
+    </bean>
+
+
+
+    <bean id="bean_connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <description> 
+            The CachingConnectionFactory extends the functionality of SingleConnectionFactory 
+            and adds the caching of Sessions, MessageProducers, and MessageConsumers. 
+            The initial cache size is set to 1, use the property sessionCacheSize 
+            to increase the number of cached sessions. Note that the number of actual 
+            cached sessions will be more than that number as sessions are cached based 
+            on their acknowledgment mode, so there can be up to 4 cached session instances 
+            when sessionCacheSize is set to one, one for each acknowledgment mode. 
+            MessageProducers and MessageConsumers are cached within their owning session 
+            and also take into account the unique properties of the producers 
+            and consumers when caching. MessageProducers are cached based on their 
+            destination. MessageConsumers are cached based on a key composed of the 
+            destination, selector, noLocal delivery flag, and the durable subscription 
+            name (if creating durable consumers).
+            
+            Note that the number of actual cached sessions will be more than that number as sessions 
+            are cached based on their acknowledgment mode, so there can be up to 4 cached session instances 
+            when sessionCacheSize is set to one.
+        </description>
+
+        <constructor-arg ref="bean_amqConnectionFactory" />
+        <property name="reconnectOnException" value="true" />
+        <property name="sessionCacheSize" value="10" />
+    </bean>-->
+        
+<!--                
+    <bean id="bean_jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="pubSubDomain" value="false" />
+        <property name="connectionFactory" ref="bean_connectionFactory" />
+    </bean>
+    
+    <bean id="jmsErrorHandler" class="com.acentic.cloudservices.jms.JmsErrorHandler" />-->
+</beans>
